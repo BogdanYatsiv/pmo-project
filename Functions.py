@@ -60,3 +60,30 @@ def get_Res_vector_for_Matr(V_m,num_of_v):
 def get_Vector_of_Coef(V_m,num_of_v):
     vector_of_Coef = np.linalg.solve(get_Matrix(V_m,num_of_v),get_Res_vector_for_Matr(V_m,num_of_v))
     return vector_of_Coef
+
+def get_mu(c_arr:np.ndarray)-> np.ndarray:
+    """Find mu"""
+    mu_poly=c_arr[::-1] # від найбільшого до найменшого
+    mu_values=np.roots(mu_poly) # знаходимо корені
+    return mu_values
+
+def get_z(c: np.ndarray, v: list, amount: int) -> np.ndarray:
+    """Find z"""
+    result = np.arange(amount, dtype=np.poly1d)  # створюємо масив поліномів
+    for j in range(1, amount + 1):  # знаходимо усі z згідно формули
+        val = 0
+        for i in range(j):
+            val += np.poly1d(c[i] * v[j - i])
+        result[j - 1] = val
+    return result
+
+def get_u(z: np.ndarray, mu: np.ndarray, amount: int)->np.ndarray:
+    """Find u """
+    n_max = len(mu)
+    result = np.arange(n_max, dtype=np.poly1d)
+    for n in range(n_max):
+        val = 0
+        for j in range(amount):
+            val += z[j] * pow(mu[n], j + 1)
+        result[n] = val
+    return result
