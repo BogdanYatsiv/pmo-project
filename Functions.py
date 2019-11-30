@@ -28,3 +28,19 @@ def scalar_product(a_poly:np.poly1d, b_poly:np.poly1d)->float:
     """Find scalar product of two polynomials"""
     integral = np.polyint(np.polymul(a_poly, b_poly)) # множимо поліноми і знаходимо первісну
     return integral(1) - integral(0) # від інтегралу в точці 1 - інтеграл в точці 0
+
+def get_mu(c_arr:np.ndarray)-> np.ndarray:
+    """Find mu"""
+    mu_poly=c_arr[::-1] # від найбільшого до найменшого
+    mu_values=np.roots(mu_poly) # знаходимо корені
+    return mu_values
+
+def get_z(c:np.ndarray, v:list, amount:int)->np.ndarray:
+    """Find z"""
+    result = np.arange(amount, dtype=np.poly1d) #створюємо масив поліномів
+    for j in range(1, amount + 1): # знаходимо усі z згідно формули
+        val = 0
+        for i in range(j):
+            val += c[i] * v[j - i]
+        result[j-1] = val
+    return result
