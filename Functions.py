@@ -35,12 +35,24 @@ def get_mu(c_arr:np.ndarray)-> np.ndarray:
     mu_values=np.roots(mu_poly) # знаходимо корені
     return mu_values
 
-def get_z(c:np.ndarray, v:list, amount:int)->np.ndarray:
+
+def get_z(c: np.ndarray, v: list, amount: int) -> np.ndarray:
     """Find z"""
-    result = np.arange(amount, dtype=np.poly1d) #створюємо масив поліномів
-    for j in range(1, amount + 1): # знаходимо усі z згідно формули
+    result = np.arange(amount, dtype=np.poly1d)  # створюємо масив поліномів
+    for j in range(1, amount + 1):  # знаходимо усі z згідно формули
         val = 0
         for i in range(j):
-            val += c[i] * v[j - i]
-        result[j-1] = val
+            val += np.poly1d(c[i] * v[j - i])
+        result[j - 1] = val
+    return result
+
+def get_u(z: np.ndarray, mu: np.ndarray, amount: int)->np.ndarray:
+    """Find u """
+    n_max = len(mu)
+    result = np.arange(n_max, dtype=np.poly1d)
+    for n in range(n_max):
+        val = 0
+        for j in range(amount):
+            val += z[j] * pow(mu[n], j + 1)
+        result[n] = val
     return result
