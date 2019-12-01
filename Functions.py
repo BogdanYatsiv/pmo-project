@@ -20,7 +20,7 @@ def sequence_V(V0:np.poly1d, m:int)->list:
     sequence = []
     sequence.append(V0) # додаємо початкове наближення
     for i in range (m):
-        sequence.append(operatorA_action(sequence[i])) # додаємо поліном в послідовність 
+        sequence.append(operatorA_action(sequence[i])) # додаємо поліном в послідовність
     return sequence
 
 def scalar_product(a_poly:np.poly1d, b_poly:np.poly1d)->float:
